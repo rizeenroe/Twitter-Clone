@@ -1,0 +1,10 @@
+<%- include("templates/header") %>
+
+<!-- Display login status -->
+<% if (username !== 'guest') { %>
+    <h1>Welcome back, <%= username %>!</h1>
+  <% } else { %>
+    <h1>Hello, <%= username %>! Please log in.</h1>
+  <% } %>
+
+<%- include('templates/footer') %>
