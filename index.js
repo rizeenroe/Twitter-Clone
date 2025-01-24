@@ -63,6 +63,10 @@ app.get('/page1', (req, res) => {
 })
 
 
+app.get('/testing', (req, res) => {
+    return "testing route";
+})
+
 //regiter, login, and logout
 app.get('/register', (req, res) => {
     res.render('register')
