@@ -10,7 +10,7 @@ const PORT = 8000;
 // Firebase configuration
 const admin = require('firebase-admin');
 const firebase = require('firebase/app');
-const serviceAccount = require('./twitter-clone-project-4274f-firebase-adminsdk-5b0o0-1a1f611549.json');
+const serviceAccount = JSON.parse(process.env.FIREBASEKEY);
 const { log } = require('console');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
