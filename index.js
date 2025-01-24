@@ -10,7 +10,7 @@ const PORT = 8000;
 // Firebase configuration
 const admin = require('firebase-admin');
 const firebase = require('firebase/app');
-const serviceAccount = require('./twitter-clone-project-4274f-firebase-adminsdk-5b0o0-63f6281081.json');
+const serviceAccount = require('./twitter-clone-project-4274f-firebase-adminsdk-5b0o0-1a1f611549.json');
 const { log } = require('console');
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -49,14 +49,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //pages
 app.get('/', (req, res) => {
-    // const username = 'Zen'
-    // res.render('main.ejs', {username: username})
     console.log(req.session.user);
-    
+
     if (req.session.user) {
         res.render('home.ejs', {username: req.session.user.userName})
     }else{
-        res.render('home.ejs')
+        res.render('home.ejs', {username: "guest"})
     }
 });
 

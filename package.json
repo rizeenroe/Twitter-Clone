@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Rizeen Roe Peralta",
   "license": "ISC",
@@ -17,6 +18,8 @@
     "express-session": "^1.18.1",
     "firebase": "^11.2.0",
     "firebase-admin": "^13.0.2",
-    "nodemon": "^3.1.9"
+    "i": "^0.3.7",
+    "nodemon": "^3.1.9",
+    "npm": "^11.0.0"
   }
 }
