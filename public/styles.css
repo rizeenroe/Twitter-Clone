@@ -1,0 +1,53 @@
+header{
+    background-color: rgb(80, 80, 80);
+  }
+  
+  nav, body, footer{
+    display: flex;
+    justify-content: center;
+    gap: 15%;
+  }
+  
+  nav{
+    background-color: rgb(80, 80, 80);
+  }
+  
+  a{
+    text-decoration: none;
+    color: white;
+  }
+  
+  ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  
+  body{
+    background-color: rgb(255, 255, 255);
+  }
+
+  .main{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .post{
+
+  }
+
+  .posts{
+  
+  }
+
+  .register form, .post form{
+    display: flex;
+    flex-direction: column;
+
+  }
+  
+  footer{
+    background-color: rgb(80, 80, 80);
+  }

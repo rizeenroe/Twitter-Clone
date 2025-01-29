@@ -1,0 +1,16 @@
+<div class="posts">
+    <% if (posts.length > 0) { %>
+        <ul>
+          <% posts.forEach(post => { %>
+            <li>
+              <strong><%= post.name %> <% if(post.verified) { %>✔️<% } %></strong>:
+              <p><%= post.message %></p>
+              <span>Likes: <%= post.likes %> | Comments: <%= post.comments %></span>
+              <hr>
+            </li>
+          <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No posts available.</p>
+    <% } %>
+</div>

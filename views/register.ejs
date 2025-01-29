@@ -1,20 +1,23 @@
 <%- include('templates/header') %>
 
-<form action="/register" method="POST">
-    <label for="email">Email</label>
-    <input type="text" id="email" name="email" required>
+<div class="register">
+    <form action="/register" method="POST">
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" required>
+    
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+    
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" required>
+    
+        <label for="Password">Pasword</label>
+        <input type="text" id="password" name="password" required>
+    
+        <button type="submit">Register</button>
+    
+    </form>
+</div>
 
-    <label for="Password">Pasword</label>
-    <input type="text" id="password" name="password" required>
-
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" required>
-
-    <label for="age">Age</label>
-    <input type="number" id="age" name="age" required>
-
-    <button type="submit">Register</button>
-
-</form>
 
 <%- include('templates/footer') %>

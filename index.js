@@ -9,9 +9,8 @@ const PORT = 8000;
 
 // Firebase configuration
 const admin = require('firebase-admin');
-const firebase = require('firebase/app');
-const serviceAccount = JSON.parse(process.env.FIREBASEKEY);
 const { log } = require('console');
+const serviceAccount = JSON.parse(process.env.FIREBASEKEY);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
@@ -48,24 +47,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //pages
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     console.log(req.session.user);
 
-    if (req.session.user) {
-        res.render('home.ejs', {username: req.session.user.userName})
-    }else{
-        res.render('home.ejs', {username: "guest"})
+    try {
+        const snapshot = await db.collection('posts').orderBy("createdAt", "desc").get();
+        const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+        res.render('home.ejs', { 
+            name: req.session.user ? req.session.user.name : "guest",
+            posts
+        });
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        res.status(500).send("Error fetching posts");
     }
 });
 
-app.get('/page1', (req, res) => {
-    res.render('page1.ejs')
-})
 
-
-app.get('/testing', (req, res) => {
-    return "testing route";
-})
 
 //regiter, login, and logout
 app.get('/register', (req, res) => {
@@ -95,10 +94,12 @@ app.post('/register', async (req, res) => {
             password: hashedPassword,
             name: name,
             age: age,
+            verified: false,
             createdAt: admin.firestore.FieldValue.serverTimestamp(), // Timestamp for record creation
 
         }) 
-        res.status(200).send('User added successfully');
+        // res.status(200).send('User added successfully');
+        res.redirect("/")
     
     } catch (error) {
         res.status(500).send('Error adding user: ' + error.message);
@@ -122,7 +123,7 @@ app.post('/login', async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, storedHashedPassword)
         
         if (passwordMatch) {
-            req.session.user = {email: email, userName: userData.name || 'Guest'}
+            req.session.user = {email: email, name: userData.name || 'Guest', age: userData.age, verified: userData.verified}
             // res.send('User Logged In')
             console.log(`User logged in successfully: ${email}`);
 
@@ -145,6 +146,42 @@ app.get('/logout', (req, res) => {
         res.redirect('/')
     });
 })
+
+
+//pages POST functions
+app.post('/', async (req, res) => {
+    if (req.session.user) {
+        const message = req.body.message;
+        const name =  req.session.user.name;
+        const verified = req.session.user.verified;
+        console.log(req.session.user);
+        
+        console.log("message " + message);
+        console.log("name: " + name);
+        console.log("verified: " + verified);
+                
+    
+        try {
+            const userRef = db.collection('posts').doc();
+            
+            await userRef.set({
+                name: name,
+                verified: verified,
+                message: message,
+                likes: 0,
+                comments: 0,
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            }) 
+        } catch (error) {
+            
+        }
+
+        res.send('your message has been posted')
+    }else{
+        res.redirect('/login')
+    }
+})
+
 
 
 
