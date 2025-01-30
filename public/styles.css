@@ -1,53 +1,73 @@
-header{
-    background-color: rgb(80, 80, 80);
-  }
-  
-  nav, body, footer{
-    display: flex;
-    justify-content: center;
-    gap: 15%;
-  }
-  
-  nav{
-    background-color: rgb(80, 80, 80);
-  }
-  
-  a{
-    text-decoration: none;
-    color: white;
-  }
-  
-  ul{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  
-  body{
-    background-color: rgb(255, 255, 255);
-  }
+header {
+  background-color: rgb(80, 80, 80);
+}
 
-  .main{
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .post{
+body, footer {
+  display: flex;
+  gap: 15%;
+}
 
-  }
+nav, footer {
+  background-color: rgb(80, 80, 80);
+  color: white;
+  width: 50%;
+}
+header, footer{
+  position: sticky;
+}
 
-  .posts{
-  
-  }
+nav a {
+  text-decoration: none;
+  color: white;
+}
 
-  .register form, .post form{
-    display: flex;
-    flex-direction: column;
+nav ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+nav li{
+  text-align: center;
+  justify-content: center;
+}
 
-  }
-  
-  footer{
-    background-color: rgb(80, 80, 80);
-  }
+.posts ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+}
+
+.posts {
+}
+
+.register form, .post form {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  gap: 0%;
+  display: block;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+footer h3{
+  color: gold;
+}

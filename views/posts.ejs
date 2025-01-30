@@ -3,7 +3,7 @@
         <ul>
           <% posts.forEach(post => { %>
             <li>
-              <strong><%= post.name %> <% if(post.verified) { %>✔️<% } %></strong>:
+              <strong><%= post.name %> <% if(post.verified) { %>✔️<% } %></strong>
               <p><%= post.message %></p>
               <span>Likes: <%= post.likes %> | Comments: <%= post.comments %></span>
               <hr>
