@@ -52,7 +52,14 @@ app.get('/', async (req, res) => {
 
     try {
         const snapshot = await db.collection('posts').orderBy("createdAt", "desc").get();
-        const posts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        const posts = snapshot.docs.map((doc) => { 
+            const data = doc.data();
+            return { 
+                id: doc.id, 
+                ...data, 
+                createdAt: data.createdAt.toDate()
+            }
+        });
 
         res.render('home.ejs', { 
             name: req.session.user ? req.session.user.name : "guest",
@@ -90,7 +97,7 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
         
         await userRef.set({
-            email: email,
+            email: email.toLowerCase(),
             password: hashedPassword,
             name: name,
             age: age,
@@ -99,7 +106,7 @@ app.post('/register', async (req, res) => {
 
         }) 
         // res.status(200).send('User added successfully');
-        res.redirect("/")
+        res.redirect("/login")
     
     } catch (error) {
         res.status(500).send('Error adding user: ' + error.message);
@@ -114,7 +121,7 @@ app.post('/login', async (req, res) => {
     const {email, password} = req.body;
     
     try {
-        const userDoc = await admin.firestore().collection('users').where('email', '==', email).get();
+        const userDoc = await admin.firestore().collection('users').where('email', '==', email.toLowerCase()).get();
         if (userDoc.empty) {
             return res.status(401).send('Invalid Credentials')
         }   
@@ -123,7 +130,7 @@ app.post('/login', async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, storedHashedPassword)
         
         if (passwordMatch) {
-            req.session.user = {email: email, name: userData.name || 'Guest', age: userData.age, verified: userData.verified}
+            req.session.user = {email: email.toLowerCase(), name: userData.name || 'Guest', age: userData.age, verified: userData.verified}
             // res.send('User Logged In')
             console.log(`User logged in successfully: ${email}`);
 
