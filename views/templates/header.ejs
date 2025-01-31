@@ -5,20 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css" />
     <title>Document</title>
+    <% if (currentRoute === "/") { %>
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/services">Services</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/"><img src="/images/icons/letter-z.png" class="logo" title="Z" alt="Letter z icons created by Arief Harvi - Flaticon"/></a></li>
+            <li><a href="/"><img src="/images/icons/home.png" class="icons" title="Home" alt="Home icons created by Dave Gandy - Flaticon"/></a></li>
+            <li><a href="/search"><img src="/images/icons/magnifying-glass.png" class="icons" title="Search" alt="Magnifying glass icons created by Freepik - Flaticon" /></a></li>
+            <li><a href="/notifications"><img src="/images/icons/bell.png" class="icons" title="Notifications" alt="Alarm icons created by Pixel perfect - Flaticon" /></a></li>
+            <li><a href="/contact"><img src="/images/icons/telephone-handle-silhouette.png" class="icons" title="notification" alt="Phone icons created by Dave Gandy - Flaticon" /></a></li>
+            <li><a href="/more"><img src="/images/icons/more.png" class="icons" title="More" alt="More icons created by Freepik - Flaticon"/></a></li>
             <% if (user) { %>
+                <li><a href=""><img src="/images/icons/profile.png" class="user" title="Profile" alt="Person icons created by Lizel Arina - Flaticon"/></a></li>
                 <li><a href="/logout">Log Out</a></li>
             <% } else { %>
-                <li><a href="/login">Log In</a></li>
-                <li><a href="/register">Register</a></li>
+                <div class="user">
+                    <li><a href="/login">Log In</a></li>
+                    <li><a href="/register">Register</a></li>
+                </div>
+                
             <% } %>
         </ul>
     </nav>
+    <% } %>
 </head>
 <body>
  

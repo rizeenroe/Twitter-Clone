@@ -17,7 +17,6 @@ admin.initializeApp({
 require('firebase/firestore'); 
 const db = admin.firestore();
 
-
 //express-session set up
 app.use(session({
     secret: 'yourSecretKey',
@@ -31,12 +30,16 @@ app.use((req, res, next) => {
     res.locals.user = req.session.user || null
     next()
 })
-
-
   
-//express server middleware
+//express server middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extende: true }))
+//this middleware is to be able to hide some elements when in a certain route
+app.use((req, res, next)=> {
+    res.locals.currentRoute = req.path; 
+    next();
+})
+
 
 //ejs set up
 app.set('view engine', 'ejs')

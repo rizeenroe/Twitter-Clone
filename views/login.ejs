@@ -1,6 +1,6 @@
 <%- include('templates/header') %>
 
-<form action="/login" method="POST">
+<form action="/login" method="POST" class="login">
     <label for="email">Email</label>
     <input type="text" id="email" name="email" required>
 
@@ -8,6 +8,17 @@
     <input type="password" id="password" name="password" required>
 
     <button type="submit">Log In</button>
+
+    <span><a href="/register">Sign Up</a></span>
+    
+    <a href="/"><img src="/images/icons/letter-z.png" class="bigLogo" title="Z" alt="Letter z icons created by Arief Harvi - Flaticon"/></a>
+
+
+    
 </form>
+
+
+
+
 
 <%- include('templates/footer') %>
