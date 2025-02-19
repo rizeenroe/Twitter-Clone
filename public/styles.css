@@ -21,7 +21,7 @@ body{
   background-color: var(--base-clr);
   color: var(--text-clr);
   display: grid;
-  grid-template-columns: auto 6fr 1fr;
+  grid-template-columns: auto 1fr auto;
 }
 #sidebar{
   box-sizing: border-box;
@@ -55,6 +55,7 @@ body{
 }
 #sidebar ul li.active a{
   color: var(--accent-clr);
+
   svg{
     fill: var(--accent-clr);
   }
@@ -103,7 +104,7 @@ body{
   transition: 200ms ease;
 }
 .rotate svg:last-child{
-  rotate: -180deg;
+  rotate: 180deg;
 }
 #sidebar .sub-menu a{
   padding-left: 2em;
@@ -115,15 +116,14 @@ body{
   border-radius: .5em;
   background: none;
   cursor: pointer;
+
   svg{
-    transition: rotate 150ms ease; 
+    transition: rotate 150ms ease;
   }
 }
 #toggle-btn:hover{
   background-color: var(--hover-clr);
 }
-
-
 
 
 
@@ -150,23 +150,83 @@ main p{
 }
 
 
-footer{
-  box-sizing: border-box;
-  height: 100vh;
-  width: 200px;
-  padding: 5px 1em;
-  background-color: var(--base-clr);
-  border-right: 1px solid var(--line-clr);
 
-  position: sticky;
-  top: 0;
-  align-self: start;
+
+.welcome{
+  text-align: center;
+}
+
+
+
+
+
+
+.posts, .post{
+  text-align: center;
+  
+}
+
+.post {
+  width: 100%;
+  max-width: 60%;
+  margin: 20px auto;
+  border-radius: 10px;
+}
+
+.post form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.post input {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid var(--line-clr);
+  border-radius: 8px;
+  background: #2c2e3e;
+  color: var(--text-clr);
+  outline: none;
+  transition: border 0.3s;
+}
+
+.post input:focus {
+  border-color: #5e63ff;
+}
+
+.post button {
+  width: 100%;
+  padding: 12px;
+  background: #5e63ff;
+  color: var(--text-clr);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.post button:hover {
+  background: #4a50d4;
+}
+
+.posts ul{
+  list-style: none; 
+}
+
+.posts ul li {
+  border: 1px solid var(--line-clr);
+  border-radius: 1em;
+  margin-bottom: 20px;
+  padding: min(3em, 15%);
+  background: var(--base-clr); 
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media(max-width: 800px){
   body{
     grid-template-columns: 1fr;
-    
   }
   main{
     padding: 2em 1em 60px 1em;
@@ -174,10 +234,6 @@ footer{
   .container{
     border: none;
     padding: 0;
-  }
-  #sidebar ul {
-    list-style: none;
-    justify-content: center; /* Center the links horizontally */
   }
   #sidebar{
     height: 60px;
@@ -188,7 +244,7 @@ footer{
     position: fixed;
     top: unset;
     bottom: 0;
-    
+
     > ul{
       padding: 0;
       display: grid;
@@ -199,9 +255,8 @@ footer{
     }
     ul li{
       height: 100%;
-
     }
-     ul a, ul .dropdown-btn{
+    ul a, ul .dropdown-btn{
       width: 60px;
       height: 60px;
       padding: 0;
@@ -228,11 +283,9 @@ footer{
       > div{
         overflow-x: auto;
       }
-
       li{
         display: inline-flex;
       }
-
       a{
         box-sizing: border-box;
         padding: 1em;
@@ -240,8 +293,18 @@ footer{
         justify-content: center;
       }
     }
-
   }
+
+  #sidebar ul {
+    list-style: none;
+    justify-content: center; 
+  }
+
+
+  .welcome{
+    padding-top: 40px;
+  }
+
   footer{
     display: none;
   }

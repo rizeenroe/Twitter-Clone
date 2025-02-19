@@ -1,15 +1,19 @@
 <%- include("templates/header") %>
 
- <div class="main">
-  <% if (name !== 'guest') { %>
-    <h1>Welcome back, <%= name %>!</h1>
-  <% } else { %>
-    <h1>Hello, <%= name %>! Please log in.</h1>
-  <% } %>
+<div class="container">
+  <div class="welcome">
+    <% if (name !== 'guest') { %>
+      <h1>Welcome back, <%= name %>!</h1>
+    <% } else { %>
+      <h1>Hello, <%= name %>! Please log in.</h1>
+    <% } %>
+  </div>
   <%- include('post') %>
 
   <%- include('posts') %>
- </div>
+</div>
+  
+
 
 
 

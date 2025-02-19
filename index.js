@@ -180,7 +180,7 @@ app.post('/', async (req, res) => {
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
             });
             
-            res.send('Your message has been posted');
+            res.redirect('/')
         } catch (error) {
             console.error('Error posting message:', error);
             res.status(500).send('Error posting message');
@@ -191,11 +191,6 @@ app.post('/', async (req, res) => {
 });
 
 
-//functions
-function toggleSubMenu(button){
-    button.nextElementSibling.classList.toggle('show');
-    button.classList.toggle('rotate')
-}
 
 
 
