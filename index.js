@@ -9,7 +9,6 @@ const PORT = 8000;
 
 // Firebase configuration
 const admin = require('firebase-admin');
-const { log } = require('console');
 const serviceAccount = JSON.parse(process.env.FIREBASEKEY);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -20,12 +19,17 @@ const db = admin.firestore();
 //express-session set up
 app.use(session({
     secret: 'yourSecretKey',
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: { 
-        secure: true 
+        secure: false,
+        maxAge: 1000 * 60 * 60 * 24  
     } 
 }));
+
+app.get('/debug-session', (req, res) => {
+    res.json(req.session);
+});
 
 app.use((req, res, next) => {
     console.log(`Session ID: ${req.session.id}`);
