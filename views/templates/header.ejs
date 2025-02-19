@@ -10,7 +10,7 @@
             <ul>
                 <li>
                     <span class="logo">
-                        <img src="/public/images/icons/logo.png" alt="Logo">
+                        <img src="/public/images/icons/WCFt2401.svg" alt="Logo">
                     </span>
                     <button onclick="ToggleSideBar()" id="toggle-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
@@ -132,35 +132,6 @@
             });
 
         }
-
-        document.getElementById('postForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-        
-            const form = this;
-            const button = document.getElementById('sendButton');
-            const loadingMessage = document.getElementById('loadingMessage');
-        
-            button.disabled = true; 
-            button.textContent = "Sending...";
-            loadingMessage.style.display = "block"; 
-        
-            fetch('/', {
-                method: 'POST',
-                body: new FormData(form),
-            })
-            .then(response => {
-                window.location.href = '/'; 
-            })
-            .catch(error => {
-                console.error('Error posting message:', error);
-                alert("Failed to send message. Please try again.");
-            })
-            .finally(() => {
-                button.disabled = false;
-                button.textContent = "Send";
-                loadingMessage.style.display = "none";
-            });
-        });
 
     </script>
  
