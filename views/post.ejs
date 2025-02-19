@@ -1,6 +1,7 @@
 <div class="post">
-    <form method="POST">
+    <form method="POST" id="postForm">
         <input placeholder="What's on your mind?" type="text" id="message" name="message" required>
-        <button type="submit">Send</button>
+        <button type="submit" id="sendButton">Send</button>
+        <p id="loadingMessage" style="display: none;">Sending...</p>
     </form>
 </div>

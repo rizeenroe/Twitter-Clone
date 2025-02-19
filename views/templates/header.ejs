@@ -133,6 +133,34 @@
 
         }
 
+        document.getElementById('postForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            const form = this;
+            const button = document.getElementById('sendButton');
+            const loadingMessage = document.getElementById('loadingMessage');
+        
+            button.disabled = true; 
+            button.textContent = "Sending...";
+            loadingMessage.style.display = "block"; 
+        
+            fetch('/', {
+                method: 'POST',
+                body: new FormData(form),
+            })
+            .then(response => {
+                window.location.href = '/'; 
+            })
+            .catch(error => {
+                console.error('Error posting message:', error);
+                alert("Failed to send message. Please try again.");
+            })
+            .finally(() => {
+                button.disabled = false;
+                button.textContent = "Send";
+                loadingMessage.style.display = "none";
+            });
+        });
 
     </script>
  
