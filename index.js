@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 })
   
 //express server middlewares
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extende: true }))
 //this middleware is to be able to hide some elements when in a certain route
@@ -166,13 +167,7 @@ app.post('/', async (req, res) => {
         const message = req.body.message;
         const name =  req.session.user.name;
         const verified = req.session.user.verified;
-        console.log(req.session.user);
         
-        console.log("message " + message);
-        console.log("name: " + name);
-        console.log("verified: " + verified);
-                
-    
         try {
             const userRef = db.collection('posts').doc();
             
@@ -183,17 +178,24 @@ app.post('/', async (req, res) => {
                 likes: 0,
                 comments: 0,
                 createdAt: admin.firestore.FieldValue.serverTimestamp(),
-            }) 
-        } catch (error) {
+            });
             
+            res.send('Your message has been posted');
+        } catch (error) {
+            console.error('Error posting message:', error);
+            res.status(500).send('Error posting message');
         }
-
-        res.send('your message has been posted')
-    }else{
-        res.redirect('/login')
+    } else {
+        res.redirect('/login');
     }
-})
+});
 
+
+//functions
+function toggleSubMenu(button){
+    button.nextElementSibling.classList.toggle('show');
+    button.classList.toggle('rotate')
+}
 
 
 
