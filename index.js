@@ -20,7 +20,7 @@ const db = admin.firestore();
 //express-session set up
 app.use(session({
     secret: 'yourSecretKey',
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     cookie: { 
         secure: true 
