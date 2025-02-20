@@ -23,7 +23,6 @@ app.use(session({
     saveUninitialized: false,
     cookie: { 
         secure: false,
-        maxAge: 1000 * 60 * 60 * 24  
     } 
 }));
 
@@ -40,6 +39,7 @@ app.use((req, res, next) => {
 //express server middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 //this middleware is to be able to hide some elements when in a certain route
 app.use((req, res, next)=> {
     res.locals.currentRoute = req.path; 
