@@ -22,7 +22,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: { 
-        secure: false,
+        secure: true,
         maxAge: 1000 * 60 * 60 * 24  
     } 
 }));
@@ -40,7 +40,6 @@ app.use((req, res, next) => {
 //express server middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extende: true }))
 //this middleware is to be able to hide some elements when in a certain route
 app.use((req, res, next)=> {
     res.locals.currentRoute = req.path; 
@@ -171,6 +170,10 @@ app.post('/', async (req, res) => {
         const message = req.body.message;
         const name =  req.session.user.name;
         const verified = req.session.user.verified;
+        
+        if (!message.trim()) {
+            return res.status(400).send("Message cannot be empty");
+        }
         
         try {
             const userRef = db.collection('posts').doc();
