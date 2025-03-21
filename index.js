@@ -9,6 +9,7 @@ const PORT = 8000;
 
 // Firebase configuration
 const admin = require('firebase-admin');
+const { verify } = require('crypto');
 const serviceAccount = JSON.parse(process.env.FIREBASEKEY);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -60,8 +61,18 @@ app.get('/', async (req, res) => {
     console.log(req.session.user);
 
     try {
-        const snapshot = await db.collection('posts').orderBy("createdAt", "desc").get();
-        const posts = snapshot.docs.map((doc) => { 
+        const postsRef = await db.collection('posts').orderBy("createdAt", "desc").get();
+        const posts = postsRef.docs.map((doc) => { 
+            const data = doc.data();
+            return { 
+                id: doc.id, 
+                ...data, 
+                createdAt: data.createdAt.toDate()
+            }
+        });
+
+        const userRef = await db.collection('users').get();
+        const users = userRef.docs.map((doc) => { 
             const data = doc.data();
             return { 
                 id: doc.id, 
@@ -72,7 +83,8 @@ app.get('/', async (req, res) => {
 
         res.render('home.ejs', { 
             name: req.session.user ? req.session.user.name : "guest",
-            posts
+            posts,
+            users
         });
     } catch (error) {
         console.error("Error fetching posts:", error);

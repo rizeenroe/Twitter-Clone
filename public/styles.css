@@ -5,7 +5,7 @@
   --hover-clr: #222533;
   --text-clr: #e6e6ef;
   --accent-clr: #5e63ff;
-  --secondary-text-clr: #b0b3c1;
+  --secondary-text-clr: #7b7d85;
 }
 *{
   margin: 0;
@@ -21,7 +21,7 @@ body{
   background-color: var(--base-clr);
   color: var(--text-clr);
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr 0.3fr;
 }
 #sidebar{
   box-sizing: border-box;
@@ -109,7 +109,7 @@ body{
 #sidebar .sub-menu a{
   padding-left: 2em;
 }
-#toggle-btn{
+#toggle-btn, .posts button{
   margin-left: auto;
   padding: 1em;
   border: none;
@@ -156,14 +156,8 @@ main p{
   text-align: center;
 }
 
-
-
-
-
-
-.posts, .post{
+.post{
   text-align: center;
-  
 }
 
 .post {
@@ -213,7 +207,11 @@ main p{
   list-style: none; 
 }
 
-.posts ul li {
+
+
+
+/* old */
+/* .posts ul li {
   border: 1px solid var(--line-clr);
   border-radius: 1em;
   margin-bottom: 20px;
@@ -222,7 +220,61 @@ main p{
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+} */
+
+/* new */
+.posts ul li {
+  border: 1px solid var(--line-clr);
+  border-radius: 1em;
 }
+
+.userPosts{
+  /* need to implement max height here or make the image in posts be in a fixed height and width */
+}
+
+.postsUser{
+  padding: 24px;
+  padding-bottom: 0%;
+  display: flex;
+}
+
+.postsUserIcon{
+  width: 44px;
+  height: 44px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.postsUserName{ 
+  padding: 10px;
+  font-size: 18px;
+}
+
+.timeCreatedAt {
+  padding-top: 10px;
+  font-size: 0.75em;
+  color: var(--secondary-text-clr);
+}
+
+.posts button{
+  padding: 0%;
+
+}
+
+
+.userPostsText p{
+  margin-top: 0%;
+  padding-left: 5em;
+}
+
+.postsButtons{
+  padding-top: 55px;
+  display: flex;
+  justify-content: space-around;
+}
+
+
 
 @media(max-width: 800px){
   body{
