@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
-const bcrypt = require('bcryptjs')
-const session = require('express-session')
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const axios = require("axios");
+const cheerio = require('cheerio')
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -34,8 +37,8 @@ app.get('/debug-session', (req, res) => {
 app.use((req, res, next) => {
     console.log(`Session ID: ${req.session.id}`);
     res.locals.user = req.session.user || null
-    next()
-})
+    next();
+});
   
 //express server middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -45,11 +48,11 @@ app.use(express.json());
 app.use((req, res, next)=> {
     res.locals.currentRoute = req.path; 
     next();
-})
+});
 
 
 //ejs set up
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 //css path
@@ -81,11 +84,52 @@ app.get('/', async (req, res) => {
             }
         });
 
+        const trendsApiUrl = "https://trends24.in/united-states";
+        let trendsData = [];
+
+        async function getHtml() {
+            const { data: html } = await axios.get(trendsApiUrl);
+            return html;
+        }
+
+        const htmlContent = await getHtml();
+
+        if (htmlContent) {
+            const $ = cheerio.load(htmlContent);
+            const activeTrendsSection = $('.stat-card-title').filter((i, trend) => {
+                return $(trend).text().trim() === 'Popular Active Trends';
+            }).closest('.stat-card');
+            
+            activeTrendsSection.find('.stat-card-item').each((j, item) => {
+                const trendName = $(item).find('a').text().trim();
+                const trendLink = $(item).find('a').attr('href');
+        
+                if (trendName) {
+                    trendsData.push({
+                        name: trendName,
+                        link: `https://twitter.com${trendLink}`,
+                        category: 'Popular Active Trends'
+                    });
+                }
+            });
+            //just wanted to see if this updates the file when deployed in vercel and git
+            fs.writeFile('TrendsData.json', JSON.stringify(trendsData, null, 2), (err) => {
+                if (err) throw err;
+                console.log('Trends data successfully saved to TrendsData.json!');
+            });
+        } else {
+            console.log("Failed to fetch the HTML content.");
+        }
+
+        console.log(users);
+        
         res.render('home.ejs', { 
             name: req.session.user ? req.session.user.name : "guest",
             posts,
-            users
+            users,
+            trendsData
         });
+        
     } catch (error) {
         console.error("Error fetching posts:", error);
         res.status(500).send("Error fetching posts");
@@ -96,7 +140,7 @@ app.get('/', async (req, res) => {
 
 //regiter, login, and logout
 app.get('/register', (req, res) => {
-    res.render('register')
+    res.render('register');
 })
 
 app.post('/register', async (req, res) => {
@@ -123,11 +167,11 @@ app.post('/register', async (req, res) => {
             name: name,
             age: age,
             verified: false,
-            createdAt: admin.firestore.FieldValue.serverTimestamp(), // Timestamp for record creation
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
 
         }) 
         // res.status(200).send('User added successfully');
-        res.redirect("/login")
+        res.redirect("/login");
     
     } catch (error) {
         res.status(500).send('Error adding user: ' + error.message);
@@ -135,7 +179,7 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login');
 })
 
 app.post('/login', async (req, res) => {
@@ -144,18 +188,18 @@ app.post('/login', async (req, res) => {
     try {
         const userDoc = await admin.firestore().collection('users').where('email', '==', email.toLowerCase()).get();
         if (userDoc.empty) {
-            return res.status(401).send('Invalid Credentials')
+            return res.status(401).send('Invalid Credentials');
         }   
-        const userData = userDoc.docs[0].data()
-        const storedHashedPassword = userData.password
-        const passwordMatch = await bcrypt.compare(password, storedHashedPassword)
+        const userData = userDoc.docs[0].data();
+        const storedHashedPassword = userData.password;
+        const passwordMatch = await bcrypt.compare(password, storedHashedPassword);
         
         if (passwordMatch) {
             req.session.user = {email: email.toLowerCase(), name: userData.name || 'Guest', age: userData.age, verified: userData.verified}
             // res.send('User Logged In')
             console.log(`User logged in successfully: ${email}`);
 
-            res.redirect('/')
+            res.redirect('/');
         }else{
             res.status(401).send('Invalid credentials');
         }
@@ -171,7 +215,7 @@ app.get('/logout', (req, res) => {
         if (err) {
           return res.send('Failed to log out');
         }
-        res.redirect('/')
+        res.redirect('/');
     });
 })
 
@@ -208,9 +252,6 @@ app.post('/', async (req, res) => {
         res.redirect('/login');
     }
 });
-
-
-
 
 
 

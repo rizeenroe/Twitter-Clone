@@ -1,12 +1,47 @@
 <% if (currentRoute === "/") { %>
 <footer>
-    <h1>Trending</h1>
-    <div class="trending">
-        <h3>Donald Duck</h3>
-        <h3>Migrating Swans</h3>
-        <h3>Ant Colonies</h3>
+    <div class="search">
+        <form method="POST">
+            <input placeholder="Search" type="text" id="message" name="message" required>
+        </form>
     </div>
     
+    <div class="footerContainer">
+        <h1>Popular Active Trends</h1>
+        <% if (trendsData.length > 0) { %>
+            <ul>
+                <% trendsData.forEach(trend => { %>
+                    <li>
+                        <h3><%= trend.name %></h3>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No trending topics available.</p>
+        <% } %>
+    </div>
+    
+    
+    <div class="footerContainer">
+        <h1>Who To Follow</h1>
+        <% if (users.length > 0) { %>
+            <ul>
+                <% 
+                    const shuffledUsers = users.sort(() => 0.5 - Math.random());
+                    const limitedUsers = shuffledUsers.slice(0, 5);
+                    limitedUsers.forEach(user => { 
+                %>
+                    <li>
+                        <h3><%= user.name %></h3>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No Users Available</p>
+        <% } %>
+    </div>
+    
+
 </footer>
 <% } %>
 </body>
